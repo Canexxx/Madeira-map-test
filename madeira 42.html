@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Madeira Karte: Essen, Bars & Hidden Gems</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body, #map { height: 100%; margin: 0; }
+  </style>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+  />
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+</head>
+<body>
+  <div id="map"></div>
+  <script>
+    const map = L.map('map').setView([32.75, -17.0], 10);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    const icons = {
+      restaurant: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/3075/3075977.png', iconSize: [25, 25] }),
+      bar: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/992/992700.png', iconSize: [25, 25] }),
+      hidden: L.icon({ iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png', iconSize: [25, 25] })
+    };
+
+    const points = [
+      // 🥘 Restaurants & Bars (Beispiele – du kannst weitere ergänzen)
+      { name: "O Polar", type: "restaurant", lat: 32.6635, lon: -16.9746, desc: "Espetada & Huhn" },
+      { name: "Restaurante Viola", type: "restaurant", lat: 32.6802, lon: -17.0108, desc: "Schweinefleisch mit Maronen" },
+      { name: "Rei da Poncha", type: "bar", lat: 32.6476, lon: -16.9202, desc: "Poncha in allen Varianten" },
+
+      // 🌿 Hidden Gems
+      { name: "Fanal Forest", type: "hidden", lat: 32.8125, lon: -17.1265, desc: "Mystischer Lorbeerwald mit Nebel" },
+      { name: "Rocha do Navio", type: "hidden", lat: 32.8037, lon: -16.8813, desc: "Seilbahn zum Naturreservat" },
+      { name: "Cascata dos Anjos", type: "hidden", lat: 32.6863, lon: -17.1440, desc: "Wasserfall über Küstenstraße" }
+    ];
+
+    points.forEach(p => {
+      L.marker([p.lat, p.lon], { icon: icons[p.type] })
+        .addTo(map)
+        .bindPopup(`<strong>${p.name}</strong><br>${p.desc}`);
+    });
+  </script>
+</body>
+</html>
