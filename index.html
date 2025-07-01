@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interaktive Madeira-Karte (aus KMZ)</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; }
+    #map { height: 100vh; width: 100%; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <!-- Leaflet laden -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <!-- Deine GeoJSON-Daten -->
+  <script src="kmz_data.js"></script>
+
+  <script>
+    // Karte initialisieren
+    const map = L.map('map').setView([32.75, -17.0], 10);
+
+    // OpenStreetMap-Kachel hinzufügen
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // GeoJSON-Daten laden & Marker setzen
+    L.geoJSON(geojsonData, {
+      onEachFeature: function (feature, layer) {
+        const popup = `<b>${feature.properties.name || "Ort"}</b><br>${feature.properties.description || ""}`;
+        layer.bindPopup(popup);
+      }
+    }).addTo(map);
+  </script>
+</body>
+</html>
